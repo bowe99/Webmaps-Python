@@ -10,7 +10,6 @@ latitudes = list(volcanoesData['LAT'])
 longitudes = list(volcanoesData['LON'])
 
 
-
 map = folium.Map(location=[38.5, -63.09], zoom_start=6, tiles='Stamen Terrain')
 
 fg = folium.FeatureGroup(name='My Map')
@@ -22,7 +21,10 @@ for lat, lon, elv in zip(latitudes, longitudes, elevations):
         color = 'orange'
     else:
         color = 'red'
-    fg.add_child(folium.Marker(location=[lat, lon], popup='%sm' % elv, icon=folium.Icon(color=color)))
+    fg.add_child(folium.CircleMarker(location=[
+                 lat, lon], popup='%sm' % elv, radius=6, fill_color=color, color='grey', fill_opacity=0.7,))
 
+fg.add_child(folium.GeoJson(data=(open('world.json', 'r', encoding='utf-8-sig').read())))
 map.add_child(fg)
 map.save('Map1.html')
+
